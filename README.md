@@ -1,6 +1,8 @@
 Чтобы собрать проект на Ubuntu 24.04
 ```cmd
 sudo make
+```
+```cmd
 sudo make install
 ```
 
