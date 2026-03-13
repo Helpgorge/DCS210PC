@@ -37,7 +37,7 @@
 
 #include "DCS210PC.h"
 #include "DCS210PCClass.h"
-#include "serial_port.h"
+//#include "serial_port.h"
 /* clang-format off */
 /*----- PROTECTED REGION END -----*/	//	DCS210PC.cpp
 
