@@ -328,23 +328,32 @@ void DCS210PC::read_photon_num_int(Tango::Attribute &attr)
 	//	Set the attribute value
 
 	const char* prefix = "DATA_COUNT?";
-	const char* numStart = strstr(*this->count_ph, prefix);
-	
-	if (numStart != nullptr) {
-		numStart += strlen(prefix);
+	size_t pos = this->count_ph.find(prefix);
+
+	if (pos != std::string::npos) {
+		// Перемещаем позицию на конец префикса
+		pos += strlen(prefix);
+		
 		// Пропускаем пробелы
-		while (*numStart == ' ' || *numStart == '\t') numStart++;
+		while (pos < this->count_ph.length() && 
+			(this->count_ph[pos] == ' ' || this->count_ph[pos] == '\t')) {
+			pos++;
+		}
 		
-		char* endptr;
-		int count = strtol(numStart, &endptr, 10);
-		
-		if (endptr != numStart) {
-			attr_photon_num_int_read[photon_buffer_index] = count;
-			photon_buffer_index = (photon_buffer_index + 1) % 1024;
-			if (photon_buffer_count < 1024) {
-        		photon_buffer_count++;
-    		}
-			// *this->attr_photon_num_int_read = 
+		if (pos < this->count_ph.length()) {
+			char* endptr;
+			// Получаем C-строку начиная с нужной позиции
+			const char* numStr = this->count_ph.c_str() + pos;
+			int count = strtol(numStr, &endptr, 10);
+			
+			// Проверяем, что было считано хотя бы одно число
+			if (endptr != numStr) {
+				attr_photon_num_int_read[photon_buffer_index] = count;
+				photon_buffer_index = (photon_buffer_index + 1) % 1024;
+				if (photon_buffer_count < 1024) {
+					photon_buffer_count++;
+				}
+			}
 		}
 	}
 	attr.set_value(attr_photon_num_int_read, photon_buffer_count);
