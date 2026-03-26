@@ -60,7 +60,7 @@
 //  Attributes managed are:
 //================================================================
 //  photons_num_str  |  Tango::DevString	Scalar
-//  photon_num_int   |  Tango::DevLong	Spectrum  ( max = 1024)
+//  photon_num_int   |  Tango::DevLong	Spectrum  ( max = 100000)
 //================================================================
 
 namespace DCS210PC_ns
@@ -174,10 +174,10 @@ void DCS210PC::init_device()
 
 	if ((std::string)response != "OK\r") set_state(Tango::DevState::FAULT);
 	bytesRead = serial_port_write_read(this->fd, "RESTORE", response, sizeof(response), 100);
-	bytesRead = serial_port_write_read(this->fd, "COUNT_MODE 3", response, sizeof(response), 100);
+	bytesRead = serial_port_write_read(this->fd, "COUNT_MODE 1", response, sizeof(response), 100);
 	bytesRead = serial_port_write_read(this->fd, "DAQ_MODE Q", response, sizeof(response), 100);
 	bytesRead = serial_port_write_read(this->fd, "COUNT_SAMPLINGTIME 1000000", response, sizeof(response), 100);
-	bytesRead = serial_port_write_read(this->fd, "COUNT_DWELLTIME 1500000", response, sizeof(response), 100);
+	// bytesRead = serial_port_write_read(this->fd, "COUNT_DWELLTIME 1500000", response, sizeof(response), 100);
 
 	// for (int i = 0; i < 1024; i++) {
     // 	attr_photon_num_int_read[i] = 0;
@@ -317,7 +317,7 @@ void DCS210PC::read_photons_num_str(Tango::Attribute &attr)
  *
  *
  *	Data type:	Tango::DevLong
- *	Attr type:	Spectrum max = 1024
+ *	Attr type:	Spectrum max = 100000
  */
 //--------------------------------------------------------
 void DCS210PC::read_photon_num_int(Tango::Attribute &attr)
@@ -349,8 +349,8 @@ void DCS210PC::read_photon_num_int(Tango::Attribute &attr)
 			// Проверяем, что было считано хотя бы одно число
 			if (endptr != numStr) {
 				attr_photon_num_int_read[photon_buffer_index] = count;
-				photon_buffer_index = (photon_buffer_index + 1) % 1024;
-				if (photon_buffer_count < 1024) {
+				photon_buffer_index = (photon_buffer_index + 1) % 100000;
+				if (photon_buffer_count < 100000) {
 					photon_buffer_count++;
 				}
 			}
