@@ -161,7 +161,7 @@ public:
  *
  *
  *	Data type:	Tango::DevLong
- *	Attr type:	Spectrum max = 1024
+ *	Attr type:	Spectrum max = 100000
  */
 	virtual void read_photon_num_int(Tango::Attribute &attr);
 	virtual bool is_photon_num_int_allowed(Tango::AttReqType type);

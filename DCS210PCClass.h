@@ -74,7 +74,7 @@ class photon_num_intAttrib: public Tango::SpectrumAttr
 {
 public:
 	// Constants for photon_num_int attribute
-	constexpr static long X_DATA_SIZE = 1024;
+	constexpr static long X_DATA_SIZE = 100000;
 	photon_num_intAttrib():SpectrumAttr("photon_num_int",
 			Tango::DEV_LONG, Tango::READ, photon_num_intAttrib::X_DATA_SIZE) {}
 	~photon_num_intAttrib() {}
