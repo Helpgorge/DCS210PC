@@ -174,10 +174,10 @@ void DCS210PC::init_device()
 
 	if ((std::string)response != "OK\r") set_state(Tango::DevState::FAULT);
 	bytesRead = serial_port_write_read(this->fd, "RESTORE", response, sizeof(response), 100);
-	bytesRead = serial_port_write_read(this->fd, "COUNT_MODE 1", response, sizeof(response), 100);
+	bytesRead = serial_port_write_read(this->fd, "COUNT_MODE 3", response, sizeof(response), 100);
 	bytesRead = serial_port_write_read(this->fd, "DAQ_MODE Q", response, sizeof(response), 100);
 	bytesRead = serial_port_write_read(this->fd, "COUNT_SAMPLINGTIME 1000000", response, sizeof(response), 100);
-	// bytesRead = serial_port_write_read(this->fd, "COUNT_DWELLTIME 1500000", response, sizeof(response), 100);
+	bytesRead = serial_port_write_read(this->fd, "COUNT_DWELLTIME 1500000", response, sizeof(response), 100);
 
 	// for (int i = 0; i < 1024; i++) {
     // 	attr_photon_num_int_read[i] = 0;
