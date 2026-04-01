@@ -70,6 +70,23 @@ bool DCS210PC::is_photons_num_str_allowed(TANGO_UNUSED(Tango::AttReqType type))
 
 //--------------------------------------------------------
 /**
+ *	Method     : DCS210PC::is_count_samplingtime_allowed()
+ *	Description: Execution allowed for count_samplingtime attribute
+ */
+//--------------------------------------------------------
+bool DCS210PC::is_count_samplingtime_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+	//	Not any excluded states for count_samplingtime attribute in Write access.
+	/*----- PROTECTED REGION ID(DCS210PC::count_samplingtimeStateAllowed_WRITE) ENABLED START -----*/
+	/* clang-format on */
+	/* clang-format off */
+	/*----- PROTECTED REGION END -----*/	//	DCS210PC::count_samplingtimeStateAllowed_WRITE
+
+	return true;
+}
+
+//--------------------------------------------------------
+/**
  *	Method     : DCS210PC::is_photon_num_int_allowed()
  *	Description: Execution allowed for photon_num_int attribute
  */

@@ -146,6 +146,13 @@ public:
 	 */
 	//--------------------------------------------------------
 	virtual void read_attr_hardware(std::vector<long> &attr_list);
+	//--------------------------------------------------------
+	/*
+	 *	Method     : DCS210PC::write_attr_hardware()
+	 *	Description: Hardware writing for attributes.
+	 */
+	//--------------------------------------------------------
+	virtual void write_attr_hardware(std::vector<long> &attr_list);
 
 /**
  *	Attribute photons_num_str related methods
@@ -156,6 +163,15 @@ public:
  */
 	virtual void read_photons_num_str(Tango::Attribute &attr);
 	virtual bool is_photons_num_str_allowed(Tango::AttReqType type);
+/**
+ *	Attribute count_samplingtime related methods
+ *
+ *
+ *	Data type:	Tango::DevString
+ *	Attr type:	Scalar
+ */
+	virtual void write_count_samplingtime(Tango::WAttribute &attr);
+	virtual bool is_count_samplingtime_allowed(Tango::AttReqType type);
 /**
  *	Attribute photon_num_int related methods
  *

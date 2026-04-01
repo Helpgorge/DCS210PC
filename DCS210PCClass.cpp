@@ -379,6 +379,29 @@ void DCS210PCClass::attribute_factory([[maybe_unused]] std::vector<Tango::Attr *
 	//	Not Memorized
 	att_list.push_back(photons_num_str);
 
+	//	Attribute : count_samplingtime
+	count_samplingtimeAttrib	*count_samplingtime = new count_samplingtimeAttrib();
+	Tango::UserDefaultAttrProp	count_samplingtime_prop;
+	//	description	not set for count_samplingtime
+	//	label	not set for count_samplingtime
+	//	unit	not set for count_samplingtime
+	//	standard_unit	not set for count_samplingtime
+	//	display_unit	not set for count_samplingtime
+	//	format	not set for count_samplingtime
+	//	max_value	not set for count_samplingtime
+	//	min_value	not set for count_samplingtime
+	//	max_alarm	not set for count_samplingtime
+	//	min_alarm	not set for count_samplingtime
+	//	max_warning	not set for count_samplingtime
+	//	min_warning	not set for count_samplingtime
+	//	delta_t	not set for count_samplingtime
+	//	delta_val	not set for count_samplingtime
+	count_samplingtime->set_default_properties(count_samplingtime_prop);
+	//	Not Polled
+	count_samplingtime->set_disp_level(Tango::OPERATOR);
+	//	Not Memorized
+	att_list.push_back(count_samplingtime);
+
 	//	Attribute : photon_num_int
 	photon_num_intAttrib	*photon_num_int = new photon_num_intAttrib();
 	Tango::UserDefaultAttrProp	photon_num_int_prop;

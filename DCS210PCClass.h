@@ -69,6 +69,19 @@ public:
 		{return (static_cast<DCS210PC *>(dev))->is_photons_num_str_allowed(ty);}
 };
 
+//	Attribute count_samplingtime class definition
+class count_samplingtimeAttrib: public Tango::Attr
+{
+public:
+	count_samplingtimeAttrib():Attr("count_samplingtime",
+			Tango::DEV_STRING, Tango::WRITE) {}
+	~count_samplingtimeAttrib() {}
+	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
+		{(static_cast<DCS210PC *>(dev))->write_count_samplingtime(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<DCS210PC *>(dev))->is_count_samplingtime_allowed(ty);}
+};
+
 //	Attribute photon_num_int class definition
 class photon_num_intAttrib: public Tango::SpectrumAttr
 {

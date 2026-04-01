@@ -59,8 +59,9 @@
 //================================================================
 //  Attributes managed are:
 //================================================================
-//  photons_num_str  |  Tango::DevString	Scalar
-//  photon_num_int   |  Tango::DevLong	Spectrum  ( max = 100000)
+//  photons_num_str     |  Tango::DevString	Scalar
+//  count_samplingtime  |  Tango::DevString	Scalar
+//  photon_num_int      |  Tango::DevLong	Spectrum  ( max = 100000)
 //================================================================
 
 namespace DCS210PC_ns
@@ -173,11 +174,35 @@ void DCS210PC::init_device()
 	int bytesRead = serial_port_write_read(this->fd, "Hello", response, sizeof(response), 100);
 
 	if ((std::string)response != "OK\r") set_state(Tango::DevState::FAULT);
+
 	bytesRead = serial_port_write_read(this->fd, "RESTORE", response, sizeof(response), 100);
+	DEBUG_STREAM << "RESTORE: " << response << std::endl;
+	DEBUG_STREAM << "----------------------------------------" << std::endl;
+	bytesRead = serial_port_write_read(this->fd, "COUNT_MODE?", response, sizeof(response), 100);
+	DEBUG_STREAM << "COUNT_MODE?: " << response << std::endl;
+	bytesRead = serial_port_write_read(this->fd, "DAQ_MODE?", response, sizeof(response), 100);
+	DEBUG_STREAM << "DAQ_MODE?: " << response << std::endl;
+	bytesRead = serial_port_write_read(this->fd, "COUNT_SAMPLINGTIME?", response, sizeof(response), 100);
+	DEBUG_STREAM << "COUNT_SAMPLINGTIME?: " << response << std::endl;
+	bytesRead = serial_port_write_read(this->fd, "COUNT_DWELLTIME?", response, sizeof(response), 100);
+	DEBUG_STREAM << "COUNT_DWELLTIME?: " << response << std::endl;
+	DEBUG_STREAM << "----------------------------------------" << std::endl;
+
 	bytesRead = serial_port_write_read(this->fd, "COUNT_MODE 3", response, sizeof(response), 100);
 	bytesRead = serial_port_write_read(this->fd, "DAQ_MODE Q", response, sizeof(response), 100);
 	bytesRead = serial_port_write_read(this->fd, "COUNT_SAMPLINGTIME 1000000", response, sizeof(response), 100);
-	bytesRead = serial_port_write_read(this->fd, "COUNT_DWELLTIME 1500000", response, sizeof(response), 100);
+	bytesRead = serial_port_write_read(this->fd, "COUNT_DWELLTIME 0", response, sizeof(response), 100);
+
+	DEBUG_STREAM << "----------------------------------------" << std::endl;
+	bytesRead = serial_port_write_read(this->fd, "COUNT_MODE?", response, sizeof(response), 100);
+	DEBUG_STREAM << "COUNT_MODE?: " << response << std::endl;
+	bytesRead = serial_port_write_read(this->fd, "DAQ_MODE?", response, sizeof(response), 100);
+	DEBUG_STREAM << "DAQ_MODE?: " << response << std::endl;
+	bytesRead = serial_port_write_read(this->fd, "COUNT_SAMPLINGTIME?", response, sizeof(response), 100);
+	DEBUG_STREAM << "COUNT_SAMPLINGTIME?: " << response << std::endl;
+	bytesRead = serial_port_write_read(this->fd, "COUNT_DWELLTIME?", response, sizeof(response), 100);
+	DEBUG_STREAM << "COUNT_DWELLTIME?: " << response << std::endl;
+	DEBUG_STREAM << "----------------------------------------" << std::endl;
 
 	// for (int i = 0; i < 1024; i++) {
     // 	attr_photon_num_int_read[i] = 0;
@@ -287,8 +312,25 @@ void DCS210PC::read_attr_hardware(TANGO_UNUSED(std::vector<long> &attr_list))
 	/* clang-format off */
 	char response[256];
 	int bytesRead = serial_port_write_read(this->fd, "DATA_COUNT?", response, sizeof(response), 100);
+    std::time_t now = std::time(nullptr);
+    DEBUG_STREAM << "DATA_COUNT?: " << response << " at " << std::ctime(&now) << std::endl;
 	this->count_ph = (std::string)response;
 	/*----- PROTECTED REGION END -----*/	//	DCS210PC::read_attr_hardware
+}
+//--------------------------------------------------------
+/**
+ *	Method     : DCS210PC::write_attr_hardware()
+ *	Description: Hardware writing for attributes
+ */
+//--------------------------------------------------------
+void DCS210PC::write_attr_hardware(TANGO_UNUSED(std::vector<long> &attr_list))
+{
+	DEBUG_STREAM << "DCS210PC::write_attr_hardware(std::vector<long> &attr_list) entering... " << std::endl;
+	/*----- PROTECTED REGION ID(DCS210PC::write_attr_hardware) ENABLED START -----*/
+	/* clang-format on */
+	//	Add your own code
+	/* clang-format off */
+	/*----- PROTECTED REGION END -----*/	//	DCS210PC::write_attr_hardware
 }
 
 //--------------------------------------------------------
@@ -310,6 +352,36 @@ void DCS210PC::read_photons_num_str(Tango::Attribute &attr)
 	attr.set_value(attr_photons_num_str_read);
 	/* clang-format off */
 	/*----- PROTECTED REGION END -----*/	//	DCS210PC::read_photons_num_str
+}
+//--------------------------------------------------------
+/**
+ *	Write attribute count_samplingtime related method
+ *
+ *
+ *	Data type:	Tango::DevString
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void DCS210PC::write_count_samplingtime(Tango::WAttribute &attr)
+{
+	DEBUG_STREAM << "DCS210PC::write_count_samplingtime(Tango::WAttribute &attr) entering... " << std::endl;
+	//	Retrieve write value
+	        Tango::DevString w_val;
+	attr.get_write_value(w_val);
+	/*----- PROTECTED REGION ID(DCS210PC::write_count_samplingtime) ENABLED START -----*/
+	/* clang-format on */
+	// Now w_char contains the string value of w_val
+	char response[256];
+	std::string command = "COUNT_SAMPLINGTIME ";
+	command += (const char *)w_val;
+	serial_port_write_read(this->fd, command.c_str(), response, sizeof(response), 100);
+	DEBUG_STREAM << "set COUNT_SAMPLINGTIME " << command << " response:" << response << std::endl;
+	/* clang-format off */
+
+
+	//	Add your own code
+	/* clang-format off */
+	/*----- PROTECTED REGION END -----*/	//	DCS210PC::write_count_samplingtime
 }
 //--------------------------------------------------------
 /**
